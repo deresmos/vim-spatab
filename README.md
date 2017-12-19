@@ -29,6 +29,11 @@ Setting
   let g:spatab_tab_name = 'tab'
   ```
 
+* Name to return when determining mixed. *Default 'mixed'*
+  ```
+  let g:spatab_mixed_name = 'mixed'
+  ```
+
 * Enable automatically switch expandtab. *Default 1*
   ```
   let g:spatab_auto_expandtab = 1
@@ -42,6 +47,16 @@ Setting
 * Function name to be executed at tab determination.
   ```
   let g:spatab_tab_func_name = 'TabFunc'
+  ```
+
+* Function name to be executed at mixed determination.
+  ```
+  let g:spatab_mixed_func_name = 'MixedFunc'
+  ```
+
+* Judge with more spaces and tabs. *Default 0*
+  ```
+  let g:spatab_count_mode = 1
   ```
 
 
