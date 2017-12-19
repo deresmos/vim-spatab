@@ -67,7 +67,7 @@ function! spatab#Execute() abort "{{{1
 endfunction
 
 function! spatab#ExecuteRe() abort "{{{1
-  let detect_name = s:GetDetectName('')
+  let detect_name = spatab#GetDetectNameRe()
   call s:Execute(detect_name)
 endfunction
 " }}}1 END functions
