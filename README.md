@@ -67,9 +67,19 @@ Usage
   :STEcho
   ```
 
+* This Command that displays the current file as space or tab. *Recheck command*
+  ```
+  :STEchoRe
+  ```
+
 * This Command that check space and tab and processes
   ```
   :STDetect
+  ```
+
+* This Command that check space and tab and processes. *Recheck command*
+  ```
+  :STDetectRe
   ```
 
 

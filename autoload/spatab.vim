@@ -40,6 +40,13 @@ function! spatab#GetDetectName() abort "{{{1
   return detect_name
 endfunction
 
+function! spatab#GetDetectNameRe() abort "{{{1
+  let detect_name = s:GetDetectName('')
+  let b:spatab_detect_name = detect_name
+
+  return detect_name
+endfunction
+
 function! s:Execute(detect_name) abort "{{{1
   if a:detect_name ==# s:space_name
     if s:auto_expandtab | setlocal expandtab | endif
@@ -56,6 +63,11 @@ endfunction
 
 function! spatab#Execute() abort "{{{1
   let detect_name = spatab#GetDetectName()
+  call s:Execute(detect_name)
+endfunction
+
+function! spatab#ExecuteRe() abort "{{{1
+  let detect_name = s:GetDetectName('')
   call s:Execute(detect_name)
 endfunction
 " }}}1 END functions
