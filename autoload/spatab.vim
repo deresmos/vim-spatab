@@ -8,27 +8,32 @@ let s:mixed_func_name = get(g:, 'spatab_mixed_func_name', '')
 let s:auto_expandtab  = get(g:, 'spatab_auto_expandtab',  1)
 let s:count_mode      = get(g:, 'spatab_count_mode',      0)
 
+function! s:GetDetectName(default_name) abort "{{{1
+  let detect_name = a:default_name
+  let buflines    = getbufline(bufname('%'), 1, s:max_line_num)
+  let len_tab     = len( filter(copy(buflines), "v:val =~# '^\\t'") )
+  let len_space   = len( filter(copy(buflines), "v:val =~# '^ '") )
+
+  if (len_space > 0) && (len_tab > 0) && !s:count_mode
+    " space and tab mixed
+    let detect_name = s:mixed_name
+
+  elseif len_space > len_tab
+    " space
+    let detect_name = s:space_name
+
+  elseif len_space < len_tab
+    " tab
+    let detect_name = s:tab_name
+  endif
+
+  return detect_name
+endfunction
+
 function! spatab#GetDetectName() abort "{{{1
   let detect_name = get(b:, 'spatab_detect_name', '')
   if detect_name ==# ''
-    let buflines  = getbufline(bufname('%'), 1, s:max_line_num)
-    let len_tab   = len( filter(copy(buflines), "v:val =~# '^\\t'") )
-    let len_space = len( filter(copy(buflines), "v:val =~# '^ '") )
-
-    if (len_space > 0) && (len_tab > 0) && !s:count_mode
-      " space and tab mixed
-      let detect_name = s:mixed_name
-
-    elseif len_space > len_tab
-      " space
-      let detect_name = s:space_name
-
-    elseif len_space < len_tab
-      " tab
-      let detect_name = s:tab_name
-    endif
-
-    let b:spatab_detect_name = detect_name
+    let detect_name = s:GetDetectName(detect_name)
   endif
 
   return detect_name
