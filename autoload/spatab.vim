@@ -1,9 +1,12 @@
 let s:max_line_num    = get(g:, 'spatab_max_line_num',    300)
 let s:space_name      = get(g:, 'spatab_space_name',      'space')
 let s:tab_name        = get(g:, 'spatab_tab_name',        'tab')
+let s:mixed_name      = get(g:, 'spatab_mixed_name',      'mixed')
 let s:space_func_name = get(g:, 'spatab_space_func_name', '')
 let s:tab_func_name   = get(g:, 'spatab_tab_func_name',   '')
+let s:mixed_func_name = get(g:, 'spatab_mixed_func_name', '')
 let s:auto_expandtab  = get(g:, 'spatab_auto_expandtab',  1)
+let s:count_mode      = get(g:, 'spatab_count_mode',      0)
 
 function! spatab#GetDetectName() abort "{{{1
   let detect_name = get(b:, 'spatab_detect_name', '')
@@ -12,7 +15,11 @@ function! spatab#GetDetectName() abort "{{{1
     let len_tab   = len( filter(copy(buflines), "v:val =~# '^\\t'") )
     let len_space = len( filter(copy(buflines), "v:val =~# '^ '") )
 
-    if len_space > len_tab
+    if (len_space > 0) && (len_tab > 0) && !s:count_mode
+      " space and tab mixed
+      let detect_name = s:mixed_name
+
+    elseif len_space > len_tab
       " space
       let detect_name = s:space_name
 
@@ -36,6 +43,9 @@ function! spatab#Execute() abort "{{{1
   elseif res ==# s:tab_name
     if s:auto_expandtab | setlocal noexpandtab | endif
     if s:tab_func_name !=# '' | call {s:tab_func_name}() | endif
+
+  elseif res ==# s:mixed_name
+    if s:mixed_func_name !=# '' | call {s:mixed_func_name}() | endif
   endif
 endfunction
 " }}}1 END functions
