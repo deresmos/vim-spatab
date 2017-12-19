@@ -34,6 +34,7 @@ function! spatab#GetDetectName() abort "{{{1
   let detect_name = get(b:, 'spatab_detect_name', '')
   if detect_name ==# ''
     let detect_name = s:GetDetectName(detect_name)
+    let b:spatab_detect_name = detect_name
   endif
 
   return detect_name
