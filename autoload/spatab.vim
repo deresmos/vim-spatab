@@ -39,18 +39,22 @@ function! spatab#GetDetectName() abort "{{{1
   return detect_name
 endfunction
 
-function! spatab#Execute() abort "{{{1
-  let res = spatab#GetDetectName()
-  if res ==# s:space_name
+function! s:Execute(detect_name) abort "{{{1
+  if a:detect_name ==# s:space_name
     if s:auto_expandtab | setlocal expandtab | endif
     if s:space_func_name !=# '' | call {s:space_func_name}() | endif
 
-  elseif res ==# s:tab_name
+  elseif a:detect_name ==# s:tab_name
     if s:auto_expandtab | setlocal noexpandtab | endif
     if s:tab_func_name !=# '' | call {s:tab_func_name}() | endif
 
-  elseif res ==# s:mixed_name
+  elseif a:detect_name ==# s:mixed_name
     if s:mixed_func_name !=# '' | call {s:mixed_func_name}() | endif
   endif
+endfunction
+
+function! spatab#Execute() abort "{{{1
+  let detect_name = spatab#GetDetectName()
+  call s:Execute(detect_name)
 endfunction
 " }}}1 END functions
